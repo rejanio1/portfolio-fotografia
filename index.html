@@ -454,6 +454,7 @@
 
         function updateCinemaView() {
             const id = photoIds[currentIndex];
+            mainImage.src = `https://drive.jpeg?id=${id}&sz=w1920`; // Correção de segurança visual
             mainImage.src = `https://drive.google.com/thumbnail?id=${id}&sz=w1920`;
             artCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${photoIds.length}`;
             artTitle.textContent = `Fine Art Piece No. ${currentIndex + 1}`;

@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tag crucial para evitar o bloqueio de imagens do Google Drive -->
     <meta name="referrer" content="no-referrer">
-    <title>Rejanio Mendes Lopes Junior | Portfólio de Fotografia</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400&display=swap');
+    <title>Rejânio Mendes Lopes Júnior | Fine Art Photography</title>
+    
+    <!-- Fontes Premium estilo Galeria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -16,194 +19,265 @@
         }
 
         body {
-            background-color: #0a0a0a;
-            color: #ffffff;
-            font-family: 'Geist', sans-serif;
-            overflow: hidden;
+            background-color: #0d0d0d;
+            color: #f4f4f4;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Menu Minimalista */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 2rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            z-index: 100;
-            mix-blend-mode: difference;
+        /* Header Elegante */
+        header {
+            text-align: center;
+            padding: 5rem 2rem 3rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        nav h1 {
-            font-size: 1.2rem;
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
             font-weight: 400;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        nav {
+            margin-top: 2rem;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid transparent;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             transition: 0.3s;
         }
 
         nav a:hover {
             border-bottom: 1px solid #fff;
+            color: #b3b3b3;
         }
 
-        /* Container Horizontal Cinematográfico */
-        .scroll-container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+        /* Grid Masonry estilo Kyulo */
+        .gallery-container {
+            padding: 4rem 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
-        .scroll-container::-webkit-scrollbar {
-            display: none;
+        .masonry {
+            column-count: 3;
+            column-gap: 1.5rem;
         }
 
-        /* Painel de cada imagem */
-        .panel {
-            min-width: 100vw;
-            height: 100vh;
-            scroll-snap-align: center;
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #1a1a1a; /* Fundo enquanto carrega */
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s ease, filter 0.6s ease;
+            filter: brightness(0.9) grayscale(10%);
+        }
+
+        .masonry-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1) grayscale(0%);
+        }
+
+        /* Lightbox (Visualizador em Tela Cheia) */
+        #lightbox {
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
         }
 
-        .panel img {
-            max-width: 90vw;
-            max-height: 85vh;
-            object-fit: contain;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.5s ease;
-            cursor: crosshair;
+        #lightbox.active {
+            opacity: 1;
+            pointer-events: all;
         }
 
-        .panel img:hover {
-            transform: scale(1.02);
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border-radius: 2px;
         }
 
-        /* Legenda flutuante */
-        .caption {
+        #lightbox .close-btn {
             position: absolute;
-            bottom: 5vh;
-            left: 5vw;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 30px;
+            font-family: sans-serif;
+            cursor: pointer;
+            font-weight: 300;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .masonry { column-count: 2; }
+        }
+        @media (max-width: 600px) {
+            .masonry { column-count: 1; }
+            header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Rejanio Mendes Lopes Junior</h1>
-        <a href="mailto:rejaniolopes@gmail.com">Contato para Projetos</a>
-    </nav>
+    <header>
+        <h1>Rejânio Mendes Lopes Júnior</h1>
+        <p>Landscape & Fine Art Photography | Sony A7R II</p>
+        <nav>
+            <a href="mailto:rejaniolopes@gmail.com">Contato</a>
+        </nav>
+    </header>
 
-    <div class="scroll-container" id="cinemaScroll">
-        
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/10dkrStHwyIDUYh1quugF9J2ByEyUzkpy" loading="lazy" alt="Fotografia 01"><div class="caption">01 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/10mN7XJfvG02aWcwUUiN54SVPppvsScTO" loading="lazy" alt="Fotografia 02"><div class="caption">02 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/125w6W7R0tYn7sd-kbPFC20fg7sVe1sDN" loading="lazy" alt="Fotografia 03"><div class="caption">03 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/12x4KafL2009ByllZavEvU4FGlyDPse3t" loading="lazy" alt="Fotografia 04"><div class="caption">04 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/137Os571pdHqQFxoUE9Nrj7WY7UmCXKeY" loading="lazy" alt="Fotografia 05"><div class="caption">05 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/13sX1N3byhc0YJxZ-JBfMAUPiW8nxp1ns" loading="lazy" alt="Fotografia 06"><div class="caption">06 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/150_uPH9vP8VAsKrXERgPXJkpKXjK4IGK" loading="lazy" alt="Fotografia 07"><div class="caption">07 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/19_R7Y7_cQ1yf3Q2S8dKcLARmuyCJs1J9" loading="lazy" alt="Fotografia 08"><div class="caption">08 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1A7jaWl4lXyG9A4u4X0GpcO3ao32KquIz" loading="lazy" alt="Fotografia 09"><div class="caption">09 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1AZ9V8bW_hbI98m8XOiDBHeHJTwgrhCHN" loading="lazy" alt="Fotografia 10"><div class="caption">10 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1AoQ4CH2LcF0aybT9Ru485rhyXB4JhqKy" loading="lazy" alt="Fotografia 11"><div class="caption">11 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1BqffWUVQIIZqDpiRmImoWS589sjNc9jQ" loading="lazy" alt="Fotografia 12"><div class="caption">12 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1CGu-omW1pJeg4vAUe7psEkwy6hrxgC2f" loading="lazy" alt="Fotografia 13"><div class="caption">13 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1D89Gtpo7O5gQQlgAPLB4a-Jo4AtyjXKi" loading="lazy" alt="Fotografia 14"><div class="caption">14 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1DmzL6VMmt0VrjqDKILuNCxuDLZTUzrSy" loading="lazy" alt="Fotografia 15"><div class="caption">15 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1GT0DtMJtd66TmpHcmK55m4apkgzVhl-5" loading="lazy" alt="Fotografia 16"><div class="caption">16 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1Gd495EFKf6iLNpmotC5imIUKwQBS2COq" loading="lazy" alt="Fotografia 17"><div class="caption">17 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1IAyHLSklQ1UXlZrO8_oAX1KqfbEk3amj" loading="lazy" alt="Fotografia 18"><div class="caption">18 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1IT8D-f6D2HMjgmrdFHFBgPAAaYj8mClZ" loading="lazy" alt="Fotografia 19"><div class="caption">19 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1Ii9m4g0UQeFNKJ7YxRYD7XHmLbn1ckpq" loading="lazy" alt="Fotografia 20"><div class="caption">20 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1J1rbrmHwuRligzTVL7z-HvOaWPnpfaoo" loading="lazy" alt="Fotografia 21"><div class="caption">21 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1JEkULJkeUnhfb3gtXbN2p5KWyOnRHLji" loading="lazy" alt="Fotografia 22"><div class="caption">22 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1JVxAM7JV3xJlq2hRkYsTOrPCURNjIvBn" loading="lazy" alt="Fotografia 23"><div class="caption">23 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1KEu9LnGI3Cst5XGjzLrHiusBXbgcttba" loading="lazy" alt="Fotografia 24"><div class="caption">24 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1LyvXXdwxrWjnUHAQZSWKBvnVekcMnuFa" loading="lazy" alt="Fotografia 25"><div class="caption">25 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1MgqD4Cov2C447T1MOSHWDJXOUZp9RfXA" loading="lazy" alt="Fotografia 26"><div class="caption">26 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1MvMZ-N6PJ0pLdiRuiwWB0oFhc-K9KN3j" loading="lazy" alt="Fotografia 27"><div class="caption">27 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1OTFFA6k2fcc3PmyHTWEnPrhJvINLFCHU" loading="lazy" alt="Fotografia 28"><div class="caption">28 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1QXlDSYfB9SNQDQ16ZzBR4bX2adc8u8Jc" loading="lazy" alt="Fotografia 29"><div class="caption">29 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1RxG36HKSRmsCvgC8wv-ookkwOTomqB8A" loading="lazy" alt="Fotografia 30"><div class="caption">30 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1UB5YWryg3GSB1CgLaAhPO1Jv03sSPB4N" loading="lazy" alt="Fotografia 31"><div class="caption">31 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1UYynyiG0Pb9yFIe08D4gxrTeVL_iuJ_m" loading="lazy" alt="Fotografia 32"><div class="caption">32 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1UoZmeO6AYrJLDFc1i5OjS3ihKKyX4jqI" loading="lazy" alt="Fotografia 33"><div class="caption">33 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1UywFQqrLSD4HAS-aGYX50A3lMkvFXS26" loading="lazy" alt="Fotografia 34"><div class="caption">34 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1VNU4KbBSGIOe7YH9j-ZVy0FTtmVtHTdX" loading="lazy" alt="Fotografia 35"><div class="caption">35 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1W27yPiTXwFmJF8rgNBoln5BEgIj-AyqV" loading="lazy" alt="Fotografia 36"><div class="caption">36 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1W5ff-Tli6BKnESVzk_5U8iVcSaFcW39r" loading="lazy" alt="Fotografia 37"><div class="caption">37 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1Xgca-1MAUm8ohyTReUtPzawv0rHR4d2o" loading="lazy" alt="Fotografia 38"><div class="caption">38 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1Zv6EtOdSFqvxhKY6h96esYl9ACv5ZV-T" loading="lazy" alt="Fotografia 39"><div class="caption">39 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1ZyWBrsLOB6VBSWCbUk4rMVAL1-YkwO71" loading="lazy" alt="Fotografia 40"><div class="caption">40 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1_4Mt1fXUkouTxfd5MCv-a9Y16GPcjZ32" loading="lazy" alt="Fotografia 41"><div class="caption">41 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1_Q6Gu2PcaP2VuyUOlwqhJ2wiUg0jgWcl" loading="lazy" alt="Fotografia 42"><div class="caption">42 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1aTPyY8F7ooJ0Kz2ATWMXtLWrG_KLVC36" loading="lazy" alt="Fotografia 43"><div class="caption">43 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1bjjc5yszXWC-6b_X1V-iVRPSEO6YWITl" loading="lazy" alt="Fotografia 44"><div class="caption">44 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1bsnTmD7B8ePMM4D2G6hlbIk7ojz3eUY2" loading="lazy" alt="Fotografia 45"><div class="caption">45 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1djjd5RDQMMkRzM-SOdEBlDHMrN1NOwu3" loading="lazy" alt="Fotografia 46"><div class="caption">46 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1eSkHrtvdZtEVsycKIElJVSswJvS2PaKW" loading="lazy" alt="Fotografia 47"><div class="caption">47 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1fX7EAj4X6XcTaFwp8sm-ptFGjSwVKV4b" loading="lazy" alt="Fotografia 48"><div class="caption">48 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1fgHqWJCgELxl91TBp4PAF2Y9TW3L1IBA" loading="lazy" alt="Fotografia 49"><div class="caption">49 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1g76_rF7DE_u4epPb8vROGQESVwWD0q8p" loading="lazy" alt="Fotografia 50"><div class="caption">50 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1hFZkeXEba6mvngPquwK3saz9pHGK8vsE" loading="lazy" alt="Fotografia 51"><div class="caption">51 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1iprPPLZg8gISoEhNWaPGvFmkdW7DmeJY" loading="lazy" alt="Fotografia 52"><div class="caption">52 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1iqF7mztYXAqlSxxr8XwyZqgNkTprCvE3" loading="lazy" alt="Fotografia 53"><div class="caption">53 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1j7lIZ7PhRAb3sQsAzppHYkSVR3WkdNec" loading="lazy" alt="Fotografia 54"><div class="caption">54 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1jHjALyRNxLZ05ZPpjIqMr9N-JSgkdoI_" loading="lazy" alt="Fotografia 55"><div class="caption">55 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1jvsTpCxy9eD8-j1Aiw0_bPy9kdIqBrlA" loading="lazy" alt="Fotografia 56"><div class="caption">56 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1k2HaDRZV_RW_vx95kztHoMbpNj1vbzB_" loading="lazy" alt="Fotografia 57"><div class="caption">57 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1k8ugJGXmeWiPi3YNT7ZtA3RX25sC_SlC" loading="lazy" alt="Fotografia 58"><div class="caption">58 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1krbYKrXOo3lNiPBXzxBLsXJ1vfr0PHwv" loading="lazy" alt="Fotografia 59"><div class="caption">59 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1lEQwRZkEDzVwYrjYrkNdpOQtBR56Yv03" loading="lazy" alt="Fotografia 60"><div class="caption">60 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1miB1aJNkrDxKXyZeNgNDMH03WqHeo-Tj" loading="lazy" alt="Fotografia 61"><div class="caption">61 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1nQk-Da9YiuYqbfN8mK6MWAYDJFBYd0zA" loading="lazy" alt="Fotografia 62"><div class="caption">62 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1nUyUmNO8IZjJE92WvWE7XzWB4kLN5ozI" loading="lazy" alt="Fotografia 63"><div class="caption">63 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1omcN3ny1fPFpn_ZNT3P7SXfVdZC6uW5k" loading="lazy" alt="Fotografia 64"><div class="caption">64 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1qLoBhD8Jjn65YN1WOuO2zRdkJpyMXoDm" loading="lazy" alt="Fotografia 65"><div class="caption">65 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1qqxH7S3ypfQOQb6nZDDvYxNtenH5wIXK" loading="lazy" alt="Fotografia 66"><div class="caption">66 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1sJDAkvXGYyTYdZbxg4rthNgpgL2wBRj-" loading="lazy" alt="Fotografia 67"><div class="caption">67 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1t7GbIpNhPwOdK2ny3wuiXXpvamkR0TNN" loading="lazy" alt="Fotografia 68"><div class="caption">68 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1tvJWFFO_Grthi8EDoO8yMWGA-pNk4WWe" loading="lazy" alt="Fotografia 69"><div class="caption">69 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1uZuBpgk1rnfCTcDiKIMKRNxOCRzwfRQ-" loading="lazy" alt="Fotografia 70"><div class="caption">70 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1vHD1-8C865JbkwKSNEzNu52g_qRbKc-k" loading="lazy" alt="Fotografia 71"><div class="caption">71 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1vJvBwrYtU701z4lOCBDJ0IUDGAk_QCM4" loading="lazy" alt="Fotografia 72"><div class="caption">72 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1vixxDvZyoNUAt54LrzK2ddVyKCF8Dbeg" loading="lazy" alt="Fotografia 73"><div class="caption">73 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1wpz_lCbDH2-pvqFEp8ehpXnGMdnpDQte" loading="lazy" alt="Fotografia 74"><div class="caption">74 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1wwPROaJwCu0rkIEVW1VUydXJ9rVzpnyg" loading="lazy" alt="Fotografia 75"><div class="caption">75 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1xTBpOSOvnZLULgBSr1wD5SLE8NWM0dOW" loading="lazy" alt="Fotografia 76"><div class="caption">76 — Fotografia Sony A7R II</div></div>
-        <div class="panel"><img src="https://lh3.googleusercontent.com/d/1xmdSDDXVfowZfGaHAXt5kzUU2opC-KZo" loading="lazy" alt="Fotografia 77"><div class="caption">77 — Fotografia Sony A7R II</div></div>
-
+    <div class="gallery-container">
+        <div class="masonry">
+            <!-- As 77 fotos usando a API de Thumbnail do Google para estabilidade -->
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=10dkrStHwyIDUYh1quugF9J2ByEyUzkpy&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=10mN7XJfvG02aWcwUUiN54SVPppvsScTO&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=125w6W7R0tYn7sd-kbPFC20fg7sVe1sDN&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=12x4KafL2009ByllZavEvU4FGlyDPse3t&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=137Os571pdHqQFxoUE9Nrj7WY7UmCXKeY&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=13sX1N3byhc0YJxZ-JBfMAUPiW8nxp1ns&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=150_uPH9vP8VAsKrXERgPXJkpKXjK4IGK&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=19_R7Y7_cQ1yf3Q2S8dKcLARmuyCJs1J9&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1A7jaWl4lXyG9A4u4X0GpcO3ao32KquIz&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1AZ9V8bW_hbI98m8XOiDBHeHJTwgrhCHN&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1AoQ4CH2LcF0aybT9Ru485rhyXB4JhqKy&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1BqffWUVQIIZqDpiRmImoWS589sjNc9jQ&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1CGu-omW1pJeg4vAUe7psEkwy6hrxgC2f&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1D89Gtpo7O5gQQlgAPLB4a-Jo4AtyjXKi&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1DmzL6VMmt0VrjqDKILuNCxuDLZTUzrSy&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1GT0DtMJtd66TmpHcmK55m4apkgzVhl-5&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Gd495EFKf6iLNpmotC5imIUKwQBS2COq&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1IAyHLSklQ1UXlZrO8_oAX1KqfbEk3amj&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1IT8D-f6D2HMjgmrdFHFBgPAAaYj8mClZ&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Ii9m4g0UQeFNKJ7YxRYD7XHmLbn1ckpq&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1J1rbrmHwuRligzTVL7z-HvOaWPnpfaoo&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1JEkULJkeUnhfb3gtXbN2p5KWyOnRHLji&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1JVxAM7JV3xJlq2hRkYsTOrPCURNjIvBn&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1KEu9LnGI3Cst5XGjzLrHiusBXbgcttba&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1LyvXXdwxrWjnUHAQZSWKBvnVekcMnuFa&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1MgqD4Cov2C447T1MOSHWDJXOUZp9RfXA&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1MvMZ-N6PJ0pLdiRuiwWB0oFhc-K9KN3j&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1OTFFA6k2fcc3PmyHTWEnPrhJvINLFCHU&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1QXlDSYfB9SNQDQ16ZzBR4bX2adc8u8Jc&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1RxG36HKSRmsCvgC8wv-ookkwOTomqB8A&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UB5YWryg3GSB1CgLaAhPO1Jv03sSPB4N&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UYynyiG0Pb9yFIe08D4gxrTeVL_iuJ_m&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UoZmeO6AYrJLDFc1i5OjS3ihKKyX4jqI&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UywFQqrLSD4HAS-aGYX50A3lMkvFXS26&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1VNU4KbBSGIOe7YH9j-ZVy0FTtmVtHTdX&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1W27yPiTXwFmJF8rgNBoln5BEgIj-AyqV&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1W5ff-Tli6BKnESVzk_5U8iVcSaFcW39r&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Xgca-1MAUm8ohyTReUtPzawv0rHR4d2o&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Zv6EtOdSFqvxhKY6h96esYl9ACv5ZV-T&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1ZyWBrsLOB6VBSWCbUk4rMVAL1-YkwO71&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1_4Mt1fXUkouTxfd5MCv-a9Y16GPcjZ32&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1_Q6Gu2PcaP2VuyUOlwqhJ2wiUg0jgWcl&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1aTPyY8F7ooJ0Kz2ATWMXtLWrG_KLVC36&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1bjjc5yszXWC-6b_X1V-iVRPSEO6YWITl&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1bsnTmD7B8ePMM4D2G6hlbIk7ojz3eUY2&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1djjd5RDQMMkRzM-SOdEBlDHMrN1NOwu3&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1eSkHrtvdZtEVsycKIElJVSswJvS2PaKW&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1fX7EAj4X6XcTaFwp8sm-ptFGjSwVKV4b&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1fgHqWJCgELxl91TBp4PAF2Y9TW3L1IBA&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1g76_rF7DE_u4epPb8vROGQESVwWD0q8p&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1hFZkeXEba6mvngPquwK3saz9pHGK8vsE&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1iprPPLZg8gISoEhNWaPGvFmkdW7DmeJY&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1iqF7mztYXAqlSxxr8XwyZqgNkTprCvE3&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1j7lIZ7PhRAb3sQsAzppHYkSVR3WkdNec&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1jHjALyRNxLZ05ZPpjIqMr9N-JSgkdoI_&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1jvsTpCxy9eD8-j1Aiw0_bPy9kdIqBrlA&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1k2HaDRZV_RW_vx95kztHoMbpNj1vbzB_&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1k8ugJGXmeWiPi3YNT7ZtA3RX25sC_SlC&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1krbYKrXOo3lNiPBXzxBLsXJ1vfr0PHwv&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1lEQwRZkEDzVwYrjYrkNdpOQtBR56Yv03&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1miB1aJNkrDxKXyZeNgNDMH03WqHeo-Tj&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1nQk-Da9YiuYqbfN8mK6MWAYDJFBYd0zA&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1nUyUmNO8IZjJE92WvWE7XzWB4kLN5ozI&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1omcN3ny1fPFpn_ZNT3P7SXfVdZC6uW5k&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1qLoBhD8Jjn65YN1WOuO2zRdkJpyMXoDm&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1qqxH7S3ypfQOQb6nZDDvYxNtenH5wIXK&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1sJDAkvXGYyTYdZbxg4rthNgpgL2wBRj-&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1t7GbIpNhPwOdK2ny3wuiXXpvamkR0TNN&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1tvJWFFO_Grthi8EDoO8yMWGA-pNk4WWe&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1uZuBpgk1rnfCTcDiKIMKRNxOCRzwfRQ-&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vHD1-8C865JbkwKSNEzNu52g_qRbKc-k&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vJvBwrYtU701z4lOCBDJ0IUDGAk_QCM4&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vixxDvZyoNUAt54LrzK2ddVyKCF8Dbeg&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1wpz_lCbDH2-pvqFEp8ehpXnGMdnpDQte&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1wwPROaJwCu0rkIEVW1VUydXJ9rVzpnyg&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1xTBpOSOvnZLULgBSr1wD5SLE8NWM0dOW&sz=w1000" loading="lazy" alt="Obra"></div>
+            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1xmdSDDXVfowZfGaHAXt5kzUU2opC-KZo&sz=w1000" loading="lazy" alt="Obra"></div>
+        </div>
     </div>
 
-    <!-- Script para converter rolagem vertical do mouse em horizontal -->
+    <!-- Container do Lightbox oculto por padrão -->
+    <div id="lightbox">
+        <span class="close-btn">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagem Ampliada">
+    </div>
+
+    <!-- Script de Interação para abrir as fotos -->
     <script>
-        const scrollContainer = document.getElementById('cinemaScroll');
-        scrollContainer.addEventListener('wheel', (evt) => {
-            evt.preventDefault();
-            scrollContainer.scrollLeft += evt.deltaY;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.querySelector('.close-btn');
+        const items = document.querySelectorAll('.masonry-item img');
+
+        // Abrir lightbox ao clicar na imagem
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                lightbox.classList.add('active');
+                // Puxa a versão em altíssima resolução (w2000) para a tela cheia
+                lightboxImg.src = item.src.replace('w1000', 'w2000');
+            });
+        });
+
+        // Fechar no X
+        closeBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // Fechar clicando fora da imagem
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
         });
     </script>
-
 </body>
 </html>

@@ -6,17 +6,19 @@
     <meta name="referrer" content="no-referrer">
     <title>Rejânio Mendes Lopes Júnior — Fine Art Photography</title>
     
-    <!-- Tipografia de Luxo -->
+    <!-- Tipografia Editorial de Alto Padrão -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #050505;
-            --text-primary: #ededed;
-            --text-secondary: #777;
-            --accent: #d4d4d4;
+            --bg: #030303;
+            --surface: #0e0e0e;
+            --text-main: #f3f3f3;
+            --text-muted: #666;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -28,14 +30,14 @@
         body, html {
             width: 100%;
             height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            background-color: var(--bg);
+            color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Bar / Menu */
+        /* Top Bar Minimalista */
         header {
             position: fixed;
             top: 0;
@@ -46,19 +48,17 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0) 100%);
+            background: linear-gradient(to bottom, rgba(3,3,3,0.95) 0%, rgba(3,3,3,0) 100%);
             pointer-events: none;
         }
 
-        header > * {
-            pointer-events: auto;
-        }
+        header > * { pointer-events: auto; }
 
         .brand h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            font-weight: 300;
-            letter-spacing: 4px;
+            font-family: 'Baskervville', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
@@ -68,36 +68,23 @@
             align-items: center;
         }
 
-        .nav-btn, .contact-link {
+        .nav-btn, .contact-trigger {
             background: none;
             border: none;
-            color: var(--text-primary);
+            color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
+            font-size: 0.72rem;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
             cursor: pointer;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: opacity 0.3s ease;
             position: relative;
         }
 
-        .nav-btn::after, .contact-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--text-primary);
-            transition: width 0.3s ease;
-        }
+        .nav-btn:hover, .contact-trigger:hover { opacity: 0.5; }
 
-        .nav-btn:hover::after, .contact-link:hover::after {
-            width: 100%;
-        }
-
-        /* --- MODO CINEMA (IMERSIVO) --- */
+        /* --- MODO CINEMA PRINCIPAL --- */
         #cinema-view {
             position: absolute;
             top: 0;
@@ -109,7 +96,7 @@
             justify-content: center;
             align-items: center;
             opacity: 1;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #cinema-view.hidden {
@@ -118,8 +105,8 @@
         }
 
         .stage {
-            max-width: 85vw;
-            max-height: 72vh;
+            width: 80vw;
+            height: 65vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -128,66 +115,99 @@
 
         .stage img {
             max-width: 100%;
-            max-height: 72vh;
+            max-height: 65vh;
             object-fit: contain;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            user-select: none;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            animation: fadeIn 0.5s ease;
         }
 
-        .artwork-meta {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* HUD Técnico de Informações */
+        .artwork-hud {
             position: absolute;
-            bottom: 4rem;
-            width: 85vw;
+            bottom: 12vh;
+            width: 80vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             letter-spacing: 2px;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
         }
 
-        .artwork-title {
-            color: var(--text-primary);
-            font-weight: 500;
+        .hud-title {
+            color: var(--text-main);
+            font-family: 'Baskervville', serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: none;
+            margin-bottom: 4px;
         }
 
-        .nav-arrows {
+        /* Filmstrip (Carrossel de Miniaturas Inferior) */
+        .filmstrip {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 94vw;
-            left: 3vw;
+            bottom: 2vh;
+            width: 80vw;
             display: flex;
-            justify-content: space-between;
-            pointer-events: none;
-            z-index: 10;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: none;
         }
 
-        .arrow {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .filmstrip::-webkit-scrollbar { display: none; }
+
+        .film-thumb {
+            min-width: 60px;
+            height: 40px;
+            background: #111;
             cursor: pointer;
-            pointer-events: auto;
+            opacity: 0.3;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            border: 1px solid transparent;
+            overflow: hidden;
         }
 
-        .arrow:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.3);
+        .film-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .film-thumb.active {
+            opacity: 1;
+            border-color: #fff;
             transform: scale(1.05);
         }
 
-        /* --- MODO ARQUIVO / GRID EDITORIAL --- */
+        /* Setas de Navegação Laterais */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-60%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.4);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 2rem;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+
+        .arrow:hover { color: #fff; }
+        #prev-btn { left: 3vw; }
+        #next-btn { right: 3vw; }
+
+        /* --- MODO GRID EDITORIAL --- */
         #archive-view {
             position: absolute;
             top: 0;
@@ -195,11 +215,11 @@
             width: 100vw;
             height: 100vh;
             overflow-y: auto;
-            padding: 8rem 4rem 4rem 4rem;
-            background-color: var(--bg-color);
+            padding: 9rem 4rem 4rem 4rem;
+            background-color: var(--bg);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #archive-view.active {
@@ -209,39 +229,109 @@
 
         .archive-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 2rem;
-            max-width: 1600px;
+            max-width: 1500px;
             margin: 0 auto;
         }
 
-        .archive-item {
-            position: relative;
+        .archive-card {
+            background: var(--surface);
             cursor: pointer;
             overflow: hidden;
-            background: #111;
+            position: relative;
             aspect-ratio: 4/3;
+            border: 1px solid var(--border);
         }
 
-        .archive-item img {
+        .archive-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             filter: brightness(0.85);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
 
-        .archive-item:hover img {
+        .archive-card:hover img {
             transform: scale(1.04);
-            filter: brightness(1.1);
+            filter: brightness(1.05);
         }
+
+        /* --- MODAL DE CONTATO / AQUISIÇÃO --- */
+        #contact-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #contact-modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal-box h2 {
+            font-family: 'Baskervville', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .modal-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            background: none; border: none; color: #fff;
+            font-size: 1.5rem; cursor: pointer;
+        }
+
+        .btn-submit {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover { background: #d4d4d4; }
 
         /* Responsividade */
         @media (max-width: 768px) {
             header { padding: 1.5rem 2rem; }
-            .archive-grid { grid-template-columns: 1fr; gap: 1rem; }
-            #archive-view { padding: 6rem 1.5rem 2rem 1.5rem; }
-            .artwork-meta { font-size: 0.65rem; }
+            .stage { width: 90vw; height: 50vh; }
+            .artwork-hud { width: 90vw; bottom: 14vh; }
+            .filmstrip { width: 90vw; }
+            #archive-view { padding: 7rem 1.5rem 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -253,37 +343,50 @@
         </div>
         <div class="menu-controls">
             <button class="nav-btn" id="view-toggle">Índice (77)</button>
-            <a href="mailto:rejaniolopes@gmail.com" class="contact-link">Contato</a>
+            <button class="contact-trigger" id="contact-open">Contato / Adquirir</button>
         </div>
     </header>
 
     <!-- MODO CINEMA -->
     <div id="cinema-view">
-        <div class="nav-arrows">
-            <button class="arrow" id="prev-btn">&#10094;</button>
-            <button class="arrow" id="next-btn">&#10095;</button>
-        </div>
+        <button class="arrow" id="prev-btn">&#10094;</button>
+        <button class="arrow" id="next-btn">&#10095;</button>
+
         <div class="stage">
             <img id="main-image" src="" alt="Fine Art Photography">
         </div>
-        <div class="artwork-meta">
+
+        <div class="artwork-hud">
             <div>
-                <span class="artwork-title" id="art-title">Fine Art Landscape</span>
-                <p style="margin-top: 4px; font-size: 0.65rem; opacity: 0.5;">Sony A7R II</p>
+                <div class="hud-title" id="art-title">Fine Art Landscape</div>
+                <span id="art-specs">Sony A7R II • Alta Resolução</span>
             </div>
-            <div id="art-counter">01 / 77</div>
+            <div id="art-counter" style="font-weight: 500; color: #fff;">01 / 77</div>
+        </div>
+
+        <div class="filmstrip" id="filmstrip-container">
+            <!-- Miniaturas geradas dinamicamente -->
         </div>
     </div>
 
-    <!-- MODO ARQUIVO (GRID) -->
+    <!-- MODO GRID EDITORIAL -->
     <div id="archive-view">
         <div class="archive-grid" id="grid-container">
-            <!-- Injetado dinamicamente via Script -->
+            <!-- Cards injetados via JS -->
+        </div>
+    </div>
+
+    <!-- MODAL DE CONTATO -->
+    <div id="contact-modal">
+        <div class="modal-box">
+            <button class="close-modal" id="contact-close">&times;</button>
+            <h2>Aquisição e Projetos</h2>
+            <p>Interessado em adquirir licenças de uso, impressões Fine Art em grandes formatos ou parcerias criativas? Entre em contato direto.</p>
+            <a href="mailto:rejaniolopes@gmail.com" class="btn-submit">Enviar E-mail Direto</a>
         </div>
     </div>
 
     <script>
-        // Array com os IDs das 77 fotografias do Google Drive
         const photoIds = [
             "10dkrStHwyIDUYh1quugF9J2ByEyUzkpy", "10mN7XJfvG02aWcwUUiN54SVPppvsScTO", "125w6W7R0tYn7sd-kbPFC20fg7sVe1sDN", "12x4KafL2009ByllZavEvU4FGlyDPse3t", 
             "137Os571pdHqQFxoUE9Nrj7WY7UmCXKeY", "13sX1N3byhc0YJxZ-JBfMAUPiW8nxp1ns", "150_uPH9vP8VAsKrXERgPXJkpKXjK4IGK", "19_R7Y7_cQ1yf3Q2S8dKcLARmuyCJs1J9", 
@@ -317,19 +420,35 @@
         const archiveView = document.getElementById('archive-view');
         const viewToggle = document.getElementById('view-toggle');
         const gridContainer = document.getElementById('grid-container');
+        const filmstripContainer = document.getElementById('filmstrip-container');
+        
+        const contactModal = document.getElementById('contact-modal');
+        document.getElementById('contact-open').addEventListener('click', () => contactModal.classList.add('active'));
+        document.getElementById('contact-close').addEventListener('click', () => contactModal.classList.remove('active'));
 
-        // Inicializar a Galeria Grid
-        function initGrid() {
+        function initApp() {
+            // Gerar Grid
             photoIds.forEach((id, index) => {
-                const item = document.createElement('div');
-                item.className = 'archive-item';
-                item.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${id}&sz=w800" loading="lazy" alt="Obra ${index + 1}">`;
-                item.addEventListener('click', () => {
+                const card = document.createElement('div');
+                card.className = 'archive-card';
+                card.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${id}&sz=w600" loading="lazy" alt="Obra ${index + 1}">`;
+                card.addEventListener('click', () => {
                     currentIndex = index;
                     updateCinemaView();
                     toggleView();
                 });
-                gridContainer.appendChild(item);
+                gridContainer.appendChild(card);
+
+                // Gerar Filmstrip
+                const thumb = document.createElement('div');
+                thumb.className = `film-thumb ${index === 0 ? 'active' : ''}`;
+                thumb.id = `thumb-${index}`;
+                thumb.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${id}&sz=w200" loading="lazy">`;
+                thumb.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCinemaView();
+                });
+                filmstripContainer.appendChild(thumb);
             });
         }
 
@@ -337,7 +456,17 @@
             const id = photoIds[currentIndex];
             mainImage.src = `https://drive.google.com/thumbnail?id=${id}&sz=w1920`;
             artCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${photoIds.length}`;
-            artTitle.textContent = `Fine Art Collection — Peça ${currentIndex + 1}`;
+            artTitle.textContent = `Fine Art Piece No. ${currentIndex + 1}`;
+
+            // Atualizar destaque na filmstrip
+            document.querySelectorAll('.film-thumb').forEach((el, idx) => {
+                if (idx === currentIndex) {
+                    el.classList.add('active');
+                    el.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+                } else {
+                    el.classList.remove('active');
+                }
+            });
         }
 
         function nextPhoto() {
@@ -363,24 +492,19 @@
             }
         }
 
-        // Event Listeners
         document.getElementById('next-btn').addEventListener('click', nextPhoto);
         document.getElementById('prev-btn').addEventListener('click', prevPhoto);
         viewToggle.addEventListener('click', toggleView);
 
-        // Navegação por teclado (Setas e Espaço)
+        // Teclado
         document.addEventListener('keydown', (e) => {
-            if (isArchiveOpen) return;
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                nextPhoto();
-            } else if (e.key === 'ArrowLeft') {
-                prevPhoto();
-            }
+            if (isArchiveOpen || contactModal.classList.contains('active')) return;
+            if (e.key === 'ArrowRight' || e.key === ' ') nextPhoto();
+            if (e.key === 'ArrowLeft') prevPhoto();
         });
 
-        // Inicialização
+        initApp();
         updateCinemaView();
-        initGrid();
     </script>
 </body>
 </html>

@@ -4,280 +4,383 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>Rejânio Mendes Lopes Júnior | Fine Art Photography</title>
+    <title>Rejânio Mendes Lopes Júnior — Fine Art Photography</title>
     
-    <!-- Fontes Premium estilo Galeria -->
+    <!-- Tipografia de Luxo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg-color: #050505;
+            --text-primary: #ededed;
+            --text-secondary: #777;
+            --accent: #d4d4d4;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background-color: #0d0d0d;
-            color: #f4f4f4;
-            font-family: 'Montserrat', sans-serif;
+        body, html {
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header Elegante */
+        /* Top Bar / Menu */
         header {
-            text-align: center;
-            padding: 5rem 2rem 3rem 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0) 100%);
+            pointer-events: none;
         }
 
-        header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 400;
+        header > * {
+            pointer-events: auto;
+        }
+
+        .brand h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 300;
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 1rem;
         }
 
-        header p {
-            font-size: 0.85rem;
-            font-weight: 300;
+        .menu-controls {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-btn, .contact-link {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.75rem;
             letter-spacing: 2px;
-            color: #888;
             text-transform: uppercase;
-        }
-
-        nav {
-            margin-top: 2rem;
-        }
-
-        nav a {
-            color: #fff;
+            cursor: pointer;
             text-decoration: none;
-            font-size: 0.8rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-btn::after, .contact-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--text-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-btn:hover::after, .contact-link:hover::after {
+            width: 100%;
+        }
+
+        /* --- MODO CINEMA (IMERSIVO) --- */
+        #cinema-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #cinema-view.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .stage {
+            max-width: 85vw;
+            max-height: 72vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .stage img {
+            max-width: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            user-select: none;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .artwork-meta {
+            position: absolute;
+            bottom: 4rem;
+            width: 85vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.75rem;
             letter-spacing: 2px;
+            color: var(--text-secondary);
             text-transform: uppercase;
-            padding-bottom: 5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            transition: 0.3s;
         }
 
-        nav a:hover {
-            border-bottom: 1px solid #fff;
-            color: #b3b3b3;
+        .artwork-title {
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
-        /* Grid Masonry estilo Kyulo */
-        .gallery-container {
-            padding: 4rem 2rem;
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 94vw;
+            left: 3vw;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .arrow {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .arrow:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* --- MODO ARQUIVO / GRID EDITORIAL --- */
+        #archive-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 8rem 4rem 4rem 4rem;
+            background-color: var(--bg-color);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        #archive-view.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
             max-width: 1600px;
             margin: 0 auto;
         }
 
-        .masonry {
-            column-count: 3;
-            column-gap: 1.5rem;
-        }
-
-        .masonry-item {
-            break-inside: avoid;
-            margin-bottom: 1.5rem;
+        .archive-item {
             position: relative;
-            overflow: hidden;
             cursor: pointer;
-            background-color: #1a1a1a; /* Fundo enquanto carrega */
+            overflow: hidden;
+            background: #111;
+            aspect-ratio: 4/3;
         }
 
-        .masonry-item img {
-            width: 100%;
-            display: block;
-            transition: transform 0.6s ease, filter 0.6s ease;
-            filter: brightness(0.9) grayscale(10%);
-        }
-
-        .masonry-item:hover img {
-            transform: scale(1.03);
-            filter: brightness(1.1) grayscale(0%);
-        }
-
-        /* Lightbox (Visualizador em Tela Cheia) */
-        #lightbox {
-            position: fixed;
-            z-index: 999;
-            top: 0;
-            left: 0;
+        .archive-item img {
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+            object-fit: cover;
+            filter: brightness(0.85);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
         }
 
-        #lightbox.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        #lightbox img {
-            max-width: 90%;
-            max-height: 90vh;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border-radius: 2px;
-        }
-
-        #lightbox .close-btn {
-            position: absolute;
-            top: 30px;
-            right: 40px;
-            color: white;
-            font-size: 30px;
-            font-family: sans-serif;
-            cursor: pointer;
-            font-weight: 300;
+        .archive-item:hover img {
+            transform: scale(1.04);
+            filter: brightness(1.1);
         }
 
         /* Responsividade */
-        @media (max-width: 1024px) {
-            .masonry { column-count: 2; }
-        }
-        @media (max-width: 600px) {
-            .masonry { column-count: 1; }
-            header h1 { font-size: 1.8rem; }
+        @media (max-width: 768px) {
+            header { padding: 1.5rem 2rem; }
+            .archive-grid { grid-template-columns: 1fr; gap: 1rem; }
+            #archive-view { padding: 6rem 1.5rem 2rem 1.5rem; }
+            .artwork-meta { font-size: 0.65rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Rejânio Mendes Lopes Júnior</h1>
-        <p>Landscape & Fine Art Photography | Sony A7R II</p>
-        <nav>
-            <a href="mailto:rejaniolopes@gmail.com">Contato</a>
-        </nav>
+        <div class="brand">
+            <h1>Rejânio Mendes</h1>
+        </div>
+        <div class="menu-controls">
+            <button class="nav-btn" id="view-toggle">Índice (77)</button>
+            <a href="mailto:rejaniolopes@gmail.com" class="contact-link">Contato</a>
+        </div>
     </header>
 
-    <div class="gallery-container">
-        <div class="masonry">
-            <!-- As 77 fotos usando a API de Thumbnail do Google para estabilidade -->
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=10dkrStHwyIDUYh1quugF9J2ByEyUzkpy&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=10mN7XJfvG02aWcwUUiN54SVPppvsScTO&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=125w6W7R0tYn7sd-kbPFC20fg7sVe1sDN&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=12x4KafL2009ByllZavEvU4FGlyDPse3t&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=137Os571pdHqQFxoUE9Nrj7WY7UmCXKeY&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=13sX1N3byhc0YJxZ-JBfMAUPiW8nxp1ns&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=150_uPH9vP8VAsKrXERgPXJkpKXjK4IGK&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=19_R7Y7_cQ1yf3Q2S8dKcLARmuyCJs1J9&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1A7jaWl4lXyG9A4u4X0GpcO3ao32KquIz&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1AZ9V8bW_hbI98m8XOiDBHeHJTwgrhCHN&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1AoQ4CH2LcF0aybT9Ru485rhyXB4JhqKy&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1BqffWUVQIIZqDpiRmImoWS589sjNc9jQ&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1CGu-omW1pJeg4vAUe7psEkwy6hrxgC2f&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1D89Gtpo7O5gQQlgAPLB4a-Jo4AtyjXKi&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1DmzL6VMmt0VrjqDKILuNCxuDLZTUzrSy&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1GT0DtMJtd66TmpHcmK55m4apkgzVhl-5&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Gd495EFKf6iLNpmotC5imIUKwQBS2COq&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1IAyHLSklQ1UXlZrO8_oAX1KqfbEk3amj&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1IT8D-f6D2HMjgmrdFHFBgPAAaYj8mClZ&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Ii9m4g0UQeFNKJ7YxRYD7XHmLbn1ckpq&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1J1rbrmHwuRligzTVL7z-HvOaWPnpfaoo&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1JEkULJkeUnhfb3gtXbN2p5KWyOnRHLji&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1JVxAM7JV3xJlq2hRkYsTOrPCURNjIvBn&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1KEu9LnGI3Cst5XGjzLrHiusBXbgcttba&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1LyvXXdwxrWjnUHAQZSWKBvnVekcMnuFa&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1MgqD4Cov2C447T1MOSHWDJXOUZp9RfXA&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1MvMZ-N6PJ0pLdiRuiwWB0oFhc-K9KN3j&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1OTFFA6k2fcc3PmyHTWEnPrhJvINLFCHU&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1QXlDSYfB9SNQDQ16ZzBR4bX2adc8u8Jc&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1RxG36HKSRmsCvgC8wv-ookkwOTomqB8A&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UB5YWryg3GSB1CgLaAhPO1Jv03sSPB4N&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UYynyiG0Pb9yFIe08D4gxrTeVL_iuJ_m&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UoZmeO6AYrJLDFc1i5OjS3ihKKyX4jqI&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1UywFQqrLSD4HAS-aGYX50A3lMkvFXS26&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1VNU4KbBSGIOe7YH9j-ZVy0FTtmVtHTdX&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1W27yPiTXwFmJF8rgNBoln5BEgIj-AyqV&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1W5ff-Tli6BKnESVzk_5U8iVcSaFcW39r&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Xgca-1MAUm8ohyTReUtPzawv0rHR4d2o&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1Zv6EtOdSFqvxhKY6h96esYl9ACv5ZV-T&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1ZyWBrsLOB6VBSWCbUk4rMVAL1-YkwO71&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1_4Mt1fXUkouTxfd5MCv-a9Y16GPcjZ32&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1_Q6Gu2PcaP2VuyUOlwqhJ2wiUg0jgWcl&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1aTPyY8F7ooJ0Kz2ATWMXtLWrG_KLVC36&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1bjjc5yszXWC-6b_X1V-iVRPSEO6YWITl&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1bsnTmD7B8ePMM4D2G6hlbIk7ojz3eUY2&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1djjd5RDQMMkRzM-SOdEBlDHMrN1NOwu3&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1eSkHrtvdZtEVsycKIElJVSswJvS2PaKW&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1fX7EAj4X6XcTaFwp8sm-ptFGjSwVKV4b&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1fgHqWJCgELxl91TBp4PAF2Y9TW3L1IBA&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1g76_rF7DE_u4epPb8vROGQESVwWD0q8p&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1hFZkeXEba6mvngPquwK3saz9pHGK8vsE&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1iprPPLZg8gISoEhNWaPGvFmkdW7DmeJY&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1iqF7mztYXAqlSxxr8XwyZqgNkTprCvE3&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1j7lIZ7PhRAb3sQsAzppHYkSVR3WkdNec&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1jHjALyRNxLZ05ZPpjIqMr9N-JSgkdoI_&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1jvsTpCxy9eD8-j1Aiw0_bPy9kdIqBrlA&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1k2HaDRZV_RW_vx95kztHoMbpNj1vbzB_&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1k8ugJGXmeWiPi3YNT7ZtA3RX25sC_SlC&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1krbYKrXOo3lNiPBXzxBLsXJ1vfr0PHwv&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1lEQwRZkEDzVwYrjYrkNdpOQtBR56Yv03&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1miB1aJNkrDxKXyZeNgNDMH03WqHeo-Tj&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1nQk-Da9YiuYqbfN8mK6MWAYDJFBYd0zA&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1nUyUmNO8IZjJE92WvWE7XzWB4kLN5ozI&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1omcN3ny1fPFpn_ZNT3P7SXfVdZC6uW5k&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1qLoBhD8Jjn65YN1WOuO2zRdkJpyMXoDm&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1qqxH7S3ypfQOQb6nZDDvYxNtenH5wIXK&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1sJDAkvXGYyTYdZbxg4rthNgpgL2wBRj-&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1t7GbIpNhPwOdK2ny3wuiXXpvamkR0TNN&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1tvJWFFO_Grthi8EDoO8yMWGA-pNk4WWe&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1uZuBpgk1rnfCTcDiKIMKRNxOCRzwfRQ-&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vHD1-8C865JbkwKSNEzNu52g_qRbKc-k&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vJvBwrYtU701z4lOCBDJ0IUDGAk_QCM4&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1vixxDvZyoNUAt54LrzK2ddVyKCF8Dbeg&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1wpz_lCbDH2-pvqFEp8ehpXnGMdnpDQte&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1wwPROaJwCu0rkIEVW1VUydXJ9rVzpnyg&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1xTBpOSOvnZLULgBSr1wD5SLE8NWM0dOW&sz=w1000" loading="lazy" alt="Obra"></div>
-            <div class="masonry-item"><img src="https://drive.google.com/thumbnail?id=1xmdSDDXVfowZfGaHAXt5kzUU2opC-KZo&sz=w1000" loading="lazy" alt="Obra"></div>
+    <!-- MODO CINEMA -->
+    <div id="cinema-view">
+        <div class="nav-arrows">
+            <button class="arrow" id="prev-btn">&#10094;</button>
+            <button class="arrow" id="next-btn">&#10095;</button>
+        </div>
+        <div class="stage">
+            <img id="main-image" src="" alt="Fine Art Photography">
+        </div>
+        <div class="artwork-meta">
+            <div>
+                <span class="artwork-title" id="art-title">Fine Art Landscape</span>
+                <p style="margin-top: 4px; font-size: 0.65rem; opacity: 0.5;">Sony A7R II</p>
+            </div>
+            <div id="art-counter">01 / 77</div>
         </div>
     </div>
 
-    <!-- Container do Lightbox oculto por padrão -->
-    <div id="lightbox">
-        <span class="close-btn">&times;</span>
-        <img id="lightbox-img" src="" alt="Imagem Ampliada">
+    <!-- MODO ARQUIVO (GRID) -->
+    <div id="archive-view">
+        <div class="archive-grid" id="grid-container">
+            <!-- Injetado dinamicamente via Script -->
+        </div>
     </div>
 
-    <!-- Script de Interação para abrir as fotos -->
     <script>
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const closeBtn = document.querySelector('.close-btn');
-        const items = document.querySelectorAll('.masonry-item img');
+        // Array com os IDs das 77 fotografias do Google Drive
+        const photoIds = [
+            "10dkrStHwyIDUYh1quugF9J2ByEyUzkpy", "10mN7XJfvG02aWcwUUiN54SVPppvsScTO", "125w6W7R0tYn7sd-kbPFC20fg7sVe1sDN", "12x4KafL2009ByllZavEvU4FGlyDPse3t", 
+            "137Os571pdHqQFxoUE9Nrj7WY7UmCXKeY", "13sX1N3byhc0YJxZ-JBfMAUPiW8nxp1ns", "150_uPH9vP8VAsKrXERgPXJkpKXjK4IGK", "19_R7Y7_cQ1yf3Q2S8dKcLARmuyCJs1J9", 
+            "1A7jaWl4lXyG9A4u4X0GpcO3ao32KquIz", "1AZ9V8bW_hbI98m8XOiDBHeHJTwgrhCHN", "1AoQ4CH2LcF0aybT9Ru485rhyXB4JhqKy", "1BqffWUVQIIZqDpiRmImoWS589sjNc9jQ", 
+            "1CGu-omW1pJeg4vAUe7psEkwy6hrxgC2f", "1D89Gtpo7O5gQQlgAPLB4a-Jo4AtyjXKi", "1DmzL6VMmt0VrjqDKILuNCxuDLZTUzrSy", "1GT0DtMJtd66TmpHcmK55m4apkgzVhl-5", 
+            "1Gd495EFKf6iLNpmotC5imIUKwQBS2COq", "1IAyHLSklQ1UXlZrO8_oAX1KqfbEk3amj", "1IT8D-f6D2HMjgmrdFHFBgPAAaYj8mClZ", "1Ii9m4g0UQeFNKJ7YxRYD7XHmLbn1ckpq", 
+            "1J1rbrmHwuRligzTVL7z-HvOaWPnpfaoo", "1JEkULJkeUnhfb3gtXbN2p5KWyOnRHLji", "1JVxAM7JV3xJlq2hRkYsTOrPCURNjIvBn", "1KEu9LnGI3Cst5XGjzLrHiusBXbgcttba", 
+            "1LyvXXdwxrWjnUHAQZSWKBvnVekcMnuFa", "1MgqD4Cov2C447T1MOSHWDJXOUZp9RfXA", "1MvMZ-N6PJ0pLdiRuiwWB0oFhc-K9KN3j", "1OTFFA6k2fcc3PmyHTWEnPrhJvINLFCHU", 
+            "1QXlDSYfB9SNQDQ16ZzBR4bX2adc8u8Jc", "1RxG36HKSRmsCvgC8wv-ookkwOTomqB8A", "1UB5YWryg3GSB1CgLaAhPO1Jv03sSPB4N", "1UYynyiG0Pb9yFIe08D4gxrTeVL_iuJ_m", 
+            "1UoZmeO6AYrJLDFc1i5OjS3ihKKyX4jqI", "1UywFQqrLSD4HAS-aGYX50A3lMkvFXS26", "1VNU4KbBSGIOe7YH9j-ZVy0FTtmVtHTdX", "1W27yPiTXwFmJF8rgNBoln5BEgIj-AyqV", 
+            "1W5ff-Tli6BKnESVzk_5U8iVcSaFcW39r", "1Xgca-1MAUm8ohyTReUtPzawv0rHR4d2o", "1Zv6EtOdSFqvxhKY6h96esYl9ACv5ZV-T", "1ZyWBrsLOB6VBSWCbUk4rMVAL1-YkwO71", 
+            "1_4Mt1fXUkouTxfd5MCv-a9Y16GPcjZ32", "1_Q6Gu2PcaP2VuyUOlwqhJ2wiUg0jgWcl", "1aTPyY8F7ooJ0Kz2ATWMXtLWrG_KLVC36", "1bjjc5yszXWC-6b_X1V-iVRPSEO6YWITl", 
+            "1bsnTmD7B8ePMM4D2G6hlbIk7ojz3eUY2", "1djjd5RDQMMkRzM-SOdEBlDHMrN1NOwu3", "1eSkHrtvdZtEVsycKIElJVSswJvS2PaKW", "1fX7EAj4X6XcTaFwp8sm-ptFGjSwVKV4b", 
+            "1fgHqWJCgELxl91TBp4PAF2Y9TW3L1IBA", "1g76_rF7DE_u4epPb8vROGQESVwWD0q8p", "1hFZkeXEba6mvngPquwK3saz9pHGK8vsE", "1iprPPLZg8gISoEhNWaPGvFmkdW7DmeJY", 
+            "1iqF7mztYXAqlSxxr8XwyZqgNkTprCvE3", "1j7lIZ7PhRAb3sQsAzppHYkSVR3WkdNec", "1jHjALyRNxLZ05ZPpjIqMr9N-JSgkdoI_", "1jvsTpCxy9eD8-j1Aiw0_bPy9kdIqBrlA", 
+            "1k2HaDRZV_RW_vx95kztHoMbpNj1vbzB_", "1k8ugJGXmeWiPi3YNT7ZtA3RX25sC_SlC", "1krbYKrXOo3lNiPBXzxBLsXJ1vfr0PHwv", "1lEQwRZkEDzVwYrjYrkNdpOQtBR56Yv03", 
+            "1miB1aJNkrDxKXyZeNgNDMH03WqHeo-Tj", "1nQk-Da9YiuYqbfN8mK6MWAYDJFBYd0zA", "1nUyUmNO8IZjJE92WvWE7XzWB4kLN5ozI", "1omcN3ny1fPFpn_ZNT3P7SXfVdZC6uW5k", 
+            "1qLoBhD8Jjn65YN1WOuO2zRdkJpyMXoDm", "1qqxH7S3ypfQOQb6nZDDvYxNtenH5wIXK", "1sJDAkvXGYyTYdZbxg4rthNgpgL2wBRj-", "1t7GbIpNhPwOdK2ny3wuiXXpvamkR0TNN", 
+            "1tvJWFFO_Grthi8EDoO8yMWGA-pNk4WWe", "1uZuBpgk1rnfCTcDiKIMKRNxOCRzwfRQ-", "1vHD1-8C865JbkwKSNEzNu52g_qRbKc-k", "1vJvBwrYtU701z4lOCBDJ0IUDGAk_QCM4", 
+            "1vixxDvZyoNUAt54LrzK2ddVyKCF8Dbeg", "1wpz_lCbDH2-pvqFEp8ehpXnGMdnpDQte", "1wwPROaJwCu0rkIEVW1VUydXJ9rVzpnyg", "1xTBpOSOvnZLULgBSr1wD5SLE8NWM0dOW", 
+            "1xmdSDDXVfowZfGaHAXt5kzUU2opC-KZo"
+        ];
 
-        // Abrir lightbox ao clicar na imagem
-        items.forEach(item => {
-            item.addEventListener('click', () => {
-                lightbox.classList.add('active');
-                // Puxa a versão em altíssima resolução (w2000) para a tela cheia
-                lightboxImg.src = item.src.replace('w1000', 'w2000');
+        let currentIndex = 0;
+        let isArchiveOpen = false;
+
+        const mainImage = document.getElementById('main-image');
+        const artCounter = document.getElementById('art-counter');
+        const artTitle = document.getElementById('art-title');
+        const cinemaView = document.getElementById('cinema-view');
+        const archiveView = document.getElementById('archive-view');
+        const viewToggle = document.getElementById('view-toggle');
+        const gridContainer = document.getElementById('grid-container');
+
+        // Inicializar a Galeria Grid
+        function initGrid() {
+            photoIds.forEach((id, index) => {
+                const item = document.createElement('div');
+                item.className = 'archive-item';
+                item.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${id}&sz=w800" loading="lazy" alt="Obra ${index + 1}">`;
+                item.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCinemaView();
+                    toggleView();
+                });
+                gridContainer.appendChild(item);
             });
-        });
+        }
 
-        // Fechar no X
-        closeBtn.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
+        function updateCinemaView() {
+            const id = photoIds[currentIndex];
+            mainImage.src = `https://drive.google.com/thumbnail?id=${id}&sz=w1920`;
+            artCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${photoIds.length}`;
+            artTitle.textContent = `Fine Art Collection — Peça ${currentIndex + 1}`;
+        }
 
-        // Fechar clicando fora da imagem
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
+        function nextPhoto() {
+            currentIndex = (currentIndex + 1) % photoIds.length;
+            updateCinemaView();
+        }
+
+        function prevPhoto() {
+            currentIndex = (currentIndex - 1 + photoIds.length) % photoIds.length;
+            updateCinemaView();
+        }
+
+        function toggleView() {
+            isArchiveOpen = !isArchiveOpen;
+            if (isArchiveOpen) {
+                archiveView.classList.add('active');
+                cinemaView.classList.add('hidden');
+                viewToggle.textContent = 'Modo Cinema';
+            } else {
+                archiveView.classList.remove('active');
+                cinemaView.classList.remove('hidden');
+                viewToggle.textContent = `Índice (${photoIds.length})`;
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('next-btn').addEventListener('click', nextPhoto);
+        document.getElementById('prev-btn').addEventListener('click', prevPhoto);
+        viewToggle.addEventListener('click', toggleView);
+
+        // Navegação por teclado (Setas e Espaço)
+        document.addEventListener('keydown', (e) => {
+            if (isArchiveOpen) return;
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextPhoto();
+            } else if (e.key === 'ArrowLeft') {
+                prevPhoto();
             }
         });
+
+        // Inicialização
+        updateCinemaView();
+        initGrid();
     </script>
 </body>
 </html>
